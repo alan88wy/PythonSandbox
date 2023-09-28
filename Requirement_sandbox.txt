@@ -1,0 +1,4 @@
+jupyter-tabnine==1.2.3
+Pillow==10.0.0
+qrcode-artistic==2.1.0
+segno==1.5.2

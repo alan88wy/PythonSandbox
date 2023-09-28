@@ -1,0 +1,14 @@
+# Install tabnine
+pip install jupyter-tabnine --user
+jupyter nbextension install --py jupyter_tabnine --user
+jupyter nbextension enable --py jupyter_tabnine --user
+jupyter serverextension enable --py jupyter_tabnine --user
+pip install python-language-server
+
+# Install nbextensions
+conda install -c conda-forge jupyter_contrib_nbextensions
+or
+pip install jupyter_contrib_nbextensions
+
+jupyter contrib nbextension install
+pip install jupyterlab_tensorboard
