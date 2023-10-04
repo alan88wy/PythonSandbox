@@ -1,0 +1,15 @@
+{
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-17",
+            "path": "/mnt/c/graalvm/graalvm-ce-java17-22.3.3"
+        }
+    ],
+    "graalvm.home": "/mnt/c/graalvm/graalvm-ce-java17-22.3.3",
+    "graalvm.installations": [
+        "/mnt/c/graalvm/graalvm-ce-java17-22.3.3"
+    ],
+    "terminal.integrated.env.linux": {
+        "GRAALVM_HOME": "/mnt/c/graalvm/graalvm-ce-java17-22.3.3"
+    }
+}

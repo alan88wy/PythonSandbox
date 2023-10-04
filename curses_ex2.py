@@ -158,9 +158,18 @@ def main(argv):
         # in case it wraps. Putting it on the last line with no room to wrap (if
         # the window is too narrow for the text) will cause an exception.
 
+        # The newwin() function creates a new window of a given size, returning the new window object.
+        
         window1Obj = curses.newwin(
             window1[3], window1[2], window1[1], window1[0])
+        
+        # window.bkgd(ch[, attr])
+        # Set the background property of the window to the character ch, with attributes attr. The change
+        # is then applied to every character position in that window:
+        #   * The attribute of every character in the window is changed to the new background attribute.
+        #   * Wherever the former background character appears, it is changed to the new background character.
         window1Obj.bkgd(' ', curses.color_pair(1))
+        
         # Calculate rough center...
         window1Center = [math.floor(window1[2]/2.0),
                         math.floor(window1[3]/2.0)]

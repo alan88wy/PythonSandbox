@@ -1,0 +1,20 @@
+pip install kivy
+pip install windows-curses
+pip install segno
+pip install pyqrcode
+pip install rich
+install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install --upgrade pip
+pip install tensorflow
+pip install 
+
+
+
+
+pip install jupyter_contrib_nbextensions
+pip install -e jupyter_contrib_nbextensions
+jupyter contrib nbextension install --user
+pip3 install jupyter-tabnine --user
+jupyter nbextension install --py jupyter_tabnine --user
+jupyter nbextension enable --py jupyter_tabnine --user
+jupyter serverextension enable --py jupyter_tabnine --user
