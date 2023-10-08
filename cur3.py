@@ -1,60 +1,102 @@
+# demo-window-border.py
+
 import curses
+import math
+import sys
 
-menu = ['Home', 'Play', 'Scoreboard', 'Exit']
+def main(argv):
+  # BEGIN ncurses startup/initialization...
+  # Initialize the curses object.
+  stdscr = curses.initscr()
 
+  # Do not echo keys back to the client.
+  curses.noecho()
 
-def print_menu(stdscr, selected_row_idx):
-    stdscr.clear()
-    h, w = stdscr.getmaxyx()
-    for idx, row in enumerate(menu):
-        x = w//2 - len(row)//2
-        y = h//2 - len(menu)//2 + idx
-        if idx == selected_row_idx:
-            stdscr.attron(curses.color_pair(1))
-            stdscr.addstr(y, x, row)
-            stdscr.attroff(curses.color_pair(1))
-        else:
-            stdscr.addstr(y, x, row)
+  # Non-blocking or cbreak mode... do not wait for Enter key to be pressed.
+  curses.cbreak()
+
+  # Turn off blinking cursor
+  curses.curs_set(False)
+
+  # Enable color if we can...
+  if curses.has_colors():
+    curses.start_color()
+
+  # Optional - Enable the keypad. This also decodes multi-byte key sequences
+  # stdscr.keypad(True)
+
+  # END ncurses startup/initialization...
+
+  caughtExceptions = ""
+  try:
+   # Create a 5x5 window in the center of the terminal window, and then
+   # alternate displaying a border and not on each key press.
+
+   # We don't need to know where the approximate center of the terminal
+   # is, but we do need to use the curses terminal size constants to
+   # calculate the X, Y coordinates of where we can place the window in
+   # order for it to be roughly centered.
+   topMostY = math.floor((curses.LINES - 5)/2)
+   leftMostX = math.floor((curses.COLS - 5)/2)
+
+   # Place a caption at the bottom left of the terminal indicating 
+   # action keys.
+   stdscr.addstr (curses.LINES-1, 0, "Press Q to quit, any other key to alternate.")
+   stdscr.refresh()
+   
+   # We're just using white on red for the window here:
+   curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
+
+   index = 0
+   done = False
+   while False == done:
+    # If we're on the first iteration, let's skip straight to creating the window.
+    if 0 != index:
+     # Grabs a value from the keyboard without Enter having to be pressed. 
+     ch = stdscr.getch()
+     # Need to match on both upper-case or lower-case Q:
+     if ch == ord('Q') or ch == ord('q'): 
+      done = True
+    mainWindow = curses.newwin(5, 5, topMostY, leftMostX)
+    mainWindow.bkgd(' ', curses.color_pair(1))
+    if 0 == index % 2:
+     mainWindow.box()
+    else:
+     # There's no way to "unbox," so blank out the border instead.
+     mainWindow.border(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ')
+    mainWindow.refresh()
+
+    stdscr.addstr(0, 0, "Iteration [" + str(index) + "]")
     stdscr.refresh()
+    index = 1 + index
 
+  except Exception as err:
+   # Just printing from here will not work, as the program is still set to
+   # use ncurses.
+   # print ("Some error [" + str(err) + "] occurred.")
+   caughtExceptions = str(err)
 
-def print_center(stdscr, text):
-    stdscr.clear()
-    h, w = stdscr.getmaxyx()
-    x = w//2 - len(text)//2
-    y = h//2
-    stdscr.addstr(y, x, text)
-    stdscr.refresh()
+  # BEGIN ncurses shutdown/deinitialization...
+  # Turn off cbreak mode...
+  curses.nocbreak()
 
+  # Turn echo back on.
+  curses.echo()
 
-def main(stdscr):
-    # turn off cursor blinking
-    curses.curs_set(0)
+  # Restore cursor blinking.
+  curses.curs_set(True)
 
-    # color scheme for selected row
-    curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)
+  # Turn off the keypad...
+  # stdscr.keypad(False)
 
-    # specify the current selected row
-    current_row = 0
+  # Restore Terminal to original state.
+  curses.endwin()
 
-    # print the menu
-    print_menu(stdscr, current_row)
+  # END ncurses shutdown/deinitialization...
 
-    while 1:
-        key = stdscr.getch()
+  # Display Errors if any happened:
+  if "" != caughtExceptions:
+   print ("Got error(s) [" + caughtExceptions + "]")
 
-        if key == curses.KEY_UP and current_row > 0:
-            current_row -= 1
-        elif key == curses.KEY_DOWN and current_row < len(menu)-1:
-            current_row += 1
-        elif key == curses.KEY_ENTER or key in [10, 13]:
-            print_center(stdscr, "You selected '{}'".format(menu[current_row]))
-            stdscr.getch()
-            # if user selected last row, exit the program
-            if current_row == len(menu)-1:
-                break
-
-        print_menu(stdscr, current_row)
-
-
-curses.wrapper(main)
+if __name__ == "__main__":
+  main(sys.argv[1:])

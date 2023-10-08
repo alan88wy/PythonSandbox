@@ -29,6 +29,8 @@ def print_center(stdscr, text):
 
 def main(stdscr):
     
+    # Initialize the curses object.
+    stdscr = curses.initscr()
    
     # turn off cursor blinking
     curses.curs_set(0)
