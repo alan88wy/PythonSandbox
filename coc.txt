@@ -46,6 +46,12 @@ iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
     CocInstall coc-sh coc-rust-analyzer coc-sql coc-tabnine coc-yaml coc-cssmodules 
 
 CocUninstall
+CocUninstall coc-tsserver  coc-html coc-css
+CocUninstall coc-angular coc-ansible coc-clangd coc-clang-format-style-options coc-cmake coc-css 
+CocUninstall coc-deno coc-emmet coc-flutter coc-golines coc-go coc-highlight coc-html 
+CocUninstall coc-htmldjango coc-htmlhint coc-html-css-support coc-java coc-jedi  
+CocUninstall coc-markdownlint coc-markdown-preview-enhanced coc-markmap coc-powershell coc-prettier 
+CocUninstall coc-rust-analyzer coc-tabnine coc-yaml coc-cssmodules 
 
 coc-angular for angular.
 coc-ansible for yaml.ansible, use ansible-language-server (scoped packages: @yaegassy/coc-ansible)
